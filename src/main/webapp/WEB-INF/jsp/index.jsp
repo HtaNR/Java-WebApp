@@ -12,6 +12,6 @@
         <title>JSP Page spring</title>
     </head>
     <body>
-        <h1>Hello World From Spring</h1>
+        <h1>Body</h1>
     </body>
 </html>
