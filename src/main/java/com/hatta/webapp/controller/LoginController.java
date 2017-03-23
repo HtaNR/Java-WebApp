@@ -6,6 +6,7 @@
 package com.hatta.webapp.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -19,4 +20,10 @@ public class LoginController {
     public String login(){
         return "login";
     }
+   
+    @RequestMapping("/logout")
+    public String showLoggedout(){
+    return "logout";
+    }
+    
 }

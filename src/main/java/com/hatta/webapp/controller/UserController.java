@@ -5,8 +5,12 @@
  */
 package com.hatta.webapp.controller;
 
+
+import com.hatta.webapp.entity.Blog;
 import com.hatta.webapp.entity.User;
+import com.hatta.webapp.service.BlogService;
 import com.hatta.webapp.service.UserService;
+import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +28,18 @@ public class UserController {
     
     @Autowired
     private UserService userService;
-    
+    @Autowired
+    private BlogService blogService;
+            
 //    binding from user-register
     @ModelAttribute("user")
-    public User construt(){
+    public User construtUser(){
         return new User();
+    }
+    
+     @ModelAttribute("blog")
+    public Blog construtBlog(){
+        return new Blog();
     }
     
     @RequestMapping("/users")
@@ -49,6 +60,20 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String doRegister(@ModelAttribute("user") User user){
         userService.save(user);
-        return "user-register";
+        return "redirect:/register.html?succes=true";
+    }
+//   getting user data specificaly
+    @RequestMapping("/account")
+    public String account(Model model, Principal principal){
+        String name = principal.getName();
+        model.addAttribute("user", userService.findOneWithBlogs(name));
+        return"user-detail";
+    }
+    
+    @RequestMapping(value = "/account", method = RequestMethod.POST)
+    public String doAddBlog(@ModelAttribute("blog") Blog blog, Principal principal){
+        String name = principal.getName();
+        blogService.save(blog, name);
+        return "redirect:/account.html";
     }
 }

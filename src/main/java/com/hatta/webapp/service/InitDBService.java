@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Date;
 import javax.transaction.Transactional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
@@ -49,9 +50,13 @@ public class InitDBService {
         Role roleAdmin = new Role();
         roleAdmin.setName("ROLE_ADMIN");
         roleReposiroty.save(roleAdmin);
+        
 //        buat user admin
         User userAdmin = new User();
+        userAdmin.setEnabled(true);
         userAdmin.setName("admin");
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        userAdmin.setPassword(encoder.encode("admin"));
         List<Role> roles = new ArrayList<Role>();
 
 //        admin punya 2 role

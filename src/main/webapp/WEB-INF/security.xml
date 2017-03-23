@@ -4,42 +4,35 @@
 xmlns:beans="http://www.springframework.org/schema/beans"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security.xsd">
-<!--    <http>
-        <intercept-url pattern="/users**" access="ROLE_ADMIN" />
-        <intercept-url pattern="/users/**" access="ROLE_ADMIN" />
-        <form-login login-page="/login.html" />
-        <logout logout-url="/logout"/>
-    </http>-->
-<!--    <http>
-	<intercept-url pattern="/users**" access="hasRole('ADMIN')"/>
-    </http>-->
-    
-    
+<!--    if want user csfr protection need to logout using post method and include the csfr certif-->
     <http use-expressions="true">
+<!--        <csrf disabled="true"/>-->
         <intercept-url pattern="/users**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')" />
-<!--        login-processing-url="/j_spring_security_check"-->
-<!--        <form-login login-processing-url="/j_spring_security_check" login-page="/login.html" />-->
+        <intercept-url pattern="/account**" access="hasRole('ROLE_USER')" />
         <form-login login-page="/login.html"
-					username-parameter="j_username" 
-					password-parameter="j_password" 
-					login-processing-url="/j_spring_security_check" 
-					authentication-failure-url="/login?login_error=1" 
-		/>
-<!--        <form-login login-processing-url="/j_spring_security_check" login-page="/login.html" default-target-url="/"
-            authentication-failure-url="/login?error" username-parameter="username"
-            password-parameter="password" />-->
-        <logout logout-url="/logout"/>
-        
+                    username-parameter="j_username" 
+                    password-parameter="j_password" 
+                    login-processing-url="/j_spring_security_check" 
+                    authentication-failure-url="/login.html" />
+            <logout logout-success-url="/login.html" invalidate-session="true" logout-url="/logout" delete-cookies="JSESSIONID"/>		
     </http>
+    
     <authentication-manager>
         <authentication-provider>
-            <user-service>
+<!--            <user-service>
                 <user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN" />
-            </user-service>
+            </user-service>-->
+            <password-encoder hash="bcrypt"/> 
+            <jdbc-user-service data-source-ref="dataSource" 
+                               authorities-by-username-query="select user.name, role.name from user
+                                                              join user_role on user.id = user_role.users_id
+                                                              join role on user_role.roles_id = role.id
+                                                              where user.name = ?"
+                                users-by-username-query="select name, password,enabled from user where name = ?" />
         </authentication-provider>
     </authentication-manager>
     

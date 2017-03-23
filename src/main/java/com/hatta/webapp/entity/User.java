@@ -26,12 +26,22 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private boolean enabled;
+    
     @ManyToMany
     @JoinTable
     private List<Role> roles;
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy="user")
     private List<Blog> blogs;
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+   
     public List<Blog> getBlogs() {
         return blogs;
     }
