@@ -25,7 +25,8 @@
         <title><tiles:getAsString name="title"/></title>
     </head>
     <body>
-        
+        <%@taglib uri="http://tiles.apache.org/tags-tiles-extras" prefix="tilesx" %>
+        <tilesx:useAttribute name="current"/>
         <div class="container">
         
             <!-- Static navbar -->
@@ -42,9 +43,11 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="<spring:url value="/" />">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Contact</a></li>
+                <li class="${current == 'index' ? 'active':''}"><a href="<spring:url value="/" />">Home</a></li>
+                <li class="${current == 'users' ? 'active':''}"><a href="<spring:url value="/users.html"/>">Users</a></li>
+                <li class="${current == 'register' ? 'active':''}"><a href="<spring:url value="/register.html"/>">Register</a></li>
+                <li class="${current == 'login' ? 'active':''}"><a href="<spring:url value="/login.html"/>">Login</a></li>
+              
 <!--              <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -58,11 +61,12 @@
                 </ul>
               </li>-->
             </ul>
-<!--            <ul class="nav navbar-nav navbar-right">
-              <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="<spring:url value="/logout"/>">Logout</a></li>
+<!--              <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
               <li><a href="../navbar-static-top/">Static top</a></li>
-              <li><a href="../navbar-fixed-top/">Fixed top</a></li>
-            </ul>-->
+              <li><a href="../navbar-fixed-top/">Fixed top</a></li>-->
+            </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
