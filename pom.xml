@@ -213,6 +213,7 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>4.3.1.Final</version>
         </dependency>
+        
         <!--        Spring Data JPA-->
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -248,7 +249,12 @@
             <artifactId>spring-security-config</artifactId>
             <version>${spring.sercurity.version}</version>
         </dependency>
-        
+<!--        hibernate validator-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>5.1.0.Final</version>
+        </dependency>
     </dependencies>
        
 
