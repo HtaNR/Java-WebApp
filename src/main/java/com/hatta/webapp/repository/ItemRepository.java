@@ -16,5 +16,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Hatta NR
  */
 public interface ItemRepository extends JpaRepository<Item,Integer> {
-    List<Item> findByBlog(Blog blog, Pageable pageable);
+    List<Item> findByBlog(Blog blog, Pageable pageable);    
+    Item findByBlogAndLink(Blog blog, String link);
+
 }

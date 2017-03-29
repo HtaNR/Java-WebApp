@@ -5,6 +5,7 @@
  */
 package com.hatta.webapp.entity;
 
+import com.hatta.webapp.annotation.UniqueUsername;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 
@@ -28,6 +30,7 @@ public class User {
     private Integer id;
     @Size (min=3, message="Name must be at least 3 characters!")
     @Column(unique = true)
+    @UniqueUsername(message = "Such username already exists")
     private String name;
     @Size(min = 1, message = "Invalid email address")
     @Email(message = "Invalid email address")
@@ -98,6 +101,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
+      
 }

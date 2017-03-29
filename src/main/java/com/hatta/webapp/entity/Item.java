@@ -5,6 +5,7 @@
  */
 package com.hatta.webapp.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,17 +13,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import org.hibernate.validator.constraints.Length;
 
 /**
  *
  * @author Hatta NR
  */
 @Entity
-public class Item {
+public class Item implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;
     private String title;
+    @Column(length = 3000 )
     private String description;
     @Column(name="published_date")
     private Date publishDate;
@@ -38,11 +41,7 @@ public class Item {
     public void setBlog(Blog blog) {
         this.blog = blog;
     }
-    
-    
-    
-    
-    
+       
     public Integer getId() {
         return id;
     }
