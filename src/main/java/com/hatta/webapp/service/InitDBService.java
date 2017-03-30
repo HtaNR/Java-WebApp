@@ -76,19 +76,19 @@ public class InitDBService {
         blogRepository.save(blogWebapp);
         
 //        make item 1 dan 2
-        Item item1 = new Item();
-        item1.setBlog(blogWebapp);
-        item1.setTitle("First");
-        item1.setLink("http://www.google.com");
-        item1.setPublishDate(new Date());
-        itemRepository.save(item1);
-        
-        Item item2 = new Item();
-        item2.setBlog(blogWebapp);
-        item2.setTitle("Second");
-        item2.setLink("http://www.google.com");
-        item2.setPublishDate(new Date());
-        itemRepository.save(item2);
+//        Item item1 = new Item();
+//        item1.setBlog(blogWebapp);
+//        item1.setTitle("First");
+//        item1.setLink("http://www.google.com");
+//        item1.setPublishDate(new Date());
+//        itemRepository.save(item1);
+//        
+//        Item item2 = new Item();
+//        item2.setBlog(blogWebapp);
+//        item2.setTitle("Second");
+//        item2.setLink("http://www.google.com");
+//        item2.setPublishDate(new Date());
+//        itemRepository.save(item2);
                 
     }
 }

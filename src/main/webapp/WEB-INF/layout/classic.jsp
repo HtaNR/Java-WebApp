@@ -24,9 +24,25 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-        
+
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><tiles:getAsString name="title"/></title>
+
+        <!-------------------------------Firebase-------------------------------->
+        <!-- Web Application Manifest -->
+        <link rel="manifest" href="web-start/manifest.json">
+
+        <!-- Add to homescreen for Chrome on Android -->
+
+        <!-- Material Design Lite -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
+        <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+
+        <!-- App Styling -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+        
+        <!-- -----------------------------------------------------------------------------       -->
     </head>
     <body>
         <%@taglib uri="http://tiles.apache.org/tags-tiles-extras" prefix="tilesx" %>
@@ -52,6 +68,8 @@
                                 <security:authorize access="hasRole('ROLE_ADMIN')">
                                 <li class="${current == 'users' ? 'active':''}"><a href="<spring:url value="/users.html"/>">Users</a></li>
                                 </security:authorize>
+                                <li class="${current == 'chat' ? 'active':''}"><a href="<spring:url value="/chat.html"/>">Message</a></li>
+                                <li class="${current == 'account' ? 'active':''}"><a href="<spring:url value="/account.html"/>">My Account</a></li>
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
@@ -71,10 +89,10 @@
                                         <li >
                                             <form id="my_form" action="${logoutUrl}" method="post">                              
                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-<!--                                                <a href="javascript:{}" onclick="document.getElementById('my_form').submit();"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout</a>-->
+                                                <!--                                                <a href="javascript:{}" onclick="document.getElementById('my_form').submit();"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout</a>-->
                                                 <button type="submit" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout</button>
                                             </form>
-                                            
+
                                         </li>
                                     </ul>
                                 </li>

@@ -18,7 +18,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <intercept-url pattern="/account**" access="hasRole('ROLE_USER')" />
         <form-login login-page="/login.html"
                     username-parameter="j_username" 
-                    password-parameter="j_password" 
+                      password-parameter="j_password" 
                     login-processing-url="/j_spring_security_check" 
                     authentication-failure-url="/login.html" />
             <logout logout-success-url="/login.html" invalidate-session="true" logout-url="/logout" delete-cookies="JSESSIONID"/>		

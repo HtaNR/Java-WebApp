@@ -9,7 +9,6 @@
     
     <mvc:annotation-driven />
     <context:component-scan base-package="com.hatta.webapp.controller"/>
-    
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
     <property name="definitions">
         <list>
