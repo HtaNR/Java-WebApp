@@ -64,16 +64,20 @@
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="${current == 'index' ? 'active':''}"><a href="<spring:url value="/" />">Home</a></li>
-                            <li class="${current == 'register' ? 'active':''}"><a href="<spring:url value="/register.html"/>">Register</a></li>
+                           
                                 <security:authorize access="hasRole('ROLE_ADMIN')">
                                 <li class="${current == 'users' ? 'active':''}"><a href="<spring:url value="/users.html"/>">Users</a></li>
+                                <li class="${current == 'register' ? 'active':''}"><a href="<spring:url value="/register.html"/>">Register User</a></li>
                                 </security:authorize>
                                 <li class="${current == 'chat' ? 'active':''}"><a href="<spring:url value="/chat.html"/>">Message</a></li>
+                                <security:authorize access=" isAuthenticated()">
                                 <li class="${current == 'account' ? 'active':''}"><a href="<spring:url value="/account.html"/>">My Account</a></li>
+                                </security:authorize>
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
                             <security:authorize access="! isAuthenticated()">
+                                <li class="${current == 'register' ? 'active':''}"><a href="<spring:url value="/register.html"/>">Register</a></li>
                                 <li class="${current == 'login' ? 'active':''}"><a href="<spring:url value="/login.html"/>">Login</a></li> 
                                 </security:authorize>
                                 <security:authorize access="isAuthenticated()">
@@ -86,6 +90,8 @@
                                     <ul class="dropdown-menu">                                   
                                         <!--                                    <li role="separator" class="divider"></li>                                   -->
                                         <li class=""><a href="<spring:url value="/account.html"/>">My Account</a></li>
+                                        <br \>
+                                    
                                         <li >
                                             <form id="my_form" action="${logoutUrl}" method="post">                              
                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -104,8 +110,6 @@
                 </div><!--/.container-fluid -->
 
             </nav>
-
-
 
             <tiles:insertAttribute name="body"/>
             <br><br>

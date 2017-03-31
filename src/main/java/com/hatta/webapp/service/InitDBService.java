@@ -40,7 +40,7 @@ public class InitDBService {
     
     @PostConstruct
     public void init(){
-        
+        if(roleReposiroty.findByName("ROLE_ADMIN")==null){
 //        buat role user
         Role roleUser = new Role();
         roleUser.setName("ROLE_USER");
@@ -89,6 +89,6 @@ public class InitDBService {
 //        item2.setLink("http://www.google.com");
 //        item2.setPublishDate(new Date());
 //        itemRepository.save(item2);
-                
+        }
     }
 }
