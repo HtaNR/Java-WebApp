@@ -55,8 +55,7 @@ public class InitDBService {
         User userAdmin = new User();
         userAdmin.setEnabled(true);
         userAdmin.setName("admin");
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        userAdmin.setPassword(encoder.encode("admin"));
+        userAdmin.setPassword("admin");
         List<Role> roles = new ArrayList<Role>();
 
 //        admin punya 2 role

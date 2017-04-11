@@ -13,5 +13,17 @@ import java.util.List;
  * @author Hatta NR
  */
 public interface UserDao {
+
     public List<User> findAllUser();
+
+    public User findUserById(int id);
+
+    public void insert(User user);
+
+    public void update(User user);
+
+    public void delete(int userId);
+
+    public void deleteAll();
+
 }

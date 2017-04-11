@@ -5,8 +5,10 @@
  */
 package com.hatta.webapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -23,10 +25,10 @@ public class Role {
     
     private String name;
     
-    @ManyToMany(mappedBy="roles") 
+    @ManyToMany(mappedBy="roles",fetch = FetchType.EAGER) 
     private List<User> users;
     
-       
+    @JsonIgnore
     public List<User> getUsers() {
         return users;
     }

@@ -14,4 +14,14 @@ import java.util.List;
  */
 public interface UserBo {
     public List<User> findAllUser();
+
+    public User findUserById(int id);
+
+    public void insert(User user);
+
+    public void update(User user);
+
+    public void delete(int userId);
+    
+    public void deleteAll();
 }

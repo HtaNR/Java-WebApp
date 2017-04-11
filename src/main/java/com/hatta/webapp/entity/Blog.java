@@ -5,6 +5,7 @@
  */
 package com.hatta.webapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -35,7 +36,8 @@ public class Blog {
     private User user;
     @OneToMany(mappedBy="blog", cascade = CascadeType.REMOVE)
     private List<Item> items;
-
+    
+    @JsonIgnore
     public User getUser() {
         return user;
     }

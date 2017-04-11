@@ -1,4 +1,4 @@
-<!--<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -12,6 +12,6 @@
         http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 
 	<mvc:annotation-driven />
-	<bean id="userDao" class="com.hatta.webapp.webservice.dao.UserDaoImpl" />
-	<bean id="userBo" class="com.hatta.webapp.webservice.bo.UserBoImpl" />
-</beans>-->
+	<bean id="userDao" class="com.hatta.webapp.webservice.dao.Impl.UserDaoImpl" />
+	<bean id="userBo" class="com.hatta.webapp.webservice.bo.Impl.UserBoImpl" />
+</beans>
