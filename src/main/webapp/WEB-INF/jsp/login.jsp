@@ -46,9 +46,9 @@
 
 
 <c:url var="loginUrl" value="j_spring_security_check"/>
-
-<form class="form-signin" action="j_spring_security_check" method="POST">
-<!--<form class="form-signin" action="${loginUrl}" method="post">-->
+<!--
+<form class="form-signin" action="j_spring_security_check" method="POST">-->
+<form class="form-signin" action="j_spring_security_check" method="post">
     <h2 class="form-signin-heading">Please sign in</h2>
     <input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
     <input type="text" name="j_username" class="form-control" placeholder="Name" required autofocus>   

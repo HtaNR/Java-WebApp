@@ -22,7 +22,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint{
 
     @Override
     public void commence(HttpServletRequest hsr, HttpServletResponse hsr1, AuthenticationException ae) throws IOException, ServletException {
-        hsr1.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Sorry You Are Unauthorized");
+        hsr1.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Sorry Dude You Are Unauthorized");
     }
     
 }
