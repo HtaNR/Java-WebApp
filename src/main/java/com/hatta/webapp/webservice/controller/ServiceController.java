@@ -39,7 +39,7 @@ public class ServiceController {
     private static final Logger logger = Logger.getLogger(ServiceController.class);
 
     @Transactional
-    @RequestMapping(value = "/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/api/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     ResponseEntity<List<User>> findAllUser() {
         List<User> users = userBo.findAllUser();
@@ -50,7 +50,7 @@ public class ServiceController {
     }
 
     @Transactional
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     ResponseEntity<User> getCustomer(@PathVariable("id") int id) {
         logger.info("###### Fetching Customer with id " + id + " ######");
@@ -63,7 +63,7 @@ public class ServiceController {
         return new ResponseEntity<User>(user, new HttpHeaders(), HttpStatus.OK);
     }
     @Transactional
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/user", method = RequestMethod.POST)
     public @ResponseBody ResponseEntity<Void> createCustomer(@RequestBody User user, UriComponentsBuilder ucBuilder) {
         logger.info("###### Creating Customer " + user.getName() + " ######");
         User newUser = new User(user.getId(), user.getName(),user.getEmail(),user.getPassword());
@@ -71,7 +71,7 @@ public class ServiceController {
         try {
             userBo.insert(newUser);
             HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri());
+            headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(user.getId()).toUri());
 
             return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -79,7 +79,7 @@ public class ServiceController {
         }
     }
      @Transactional
-    @RequestMapping(value = "/user", method = RequestMethod.PUT)
+    @RequestMapping(value = "/api/user", method = RequestMethod.PUT)
     public ResponseEntity<User> updateCustomer(@RequestBody User user) {
 		logger.info("###### Updating Customer " + user.getId() +  " ######"); 
         User updateUser = userBo.findUserById(user.getId());
@@ -93,7 +93,7 @@ public class ServiceController {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
     @Transactional
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteCustomer(@PathVariable("id") int id) {
 		logger.info("###### Fetching & Deleting Customer with id " + id +  " ######");
         User customer = userBo.findUserById(id);
@@ -106,7 +106,7 @@ public class ServiceController {
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
     
-    @RequestMapping(value = "/user", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/api/user", method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteAllCustomers() {
 		logger.info("###### Deleting all Customers ######"); 
         userBo.deleteAll();

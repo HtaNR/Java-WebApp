@@ -3,22 +3,178 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
              xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/security
-		http://www.springframework.org/schema/security/spring-security.xsd">
+		http://www.springframework.org/schema/security/spring-security.xsd
+                http://www.springframework.org/schema/security/oauth2 
+                http://www.springframework.org/schema/security/spring-security-oauth2.xsd
+">
     
-    <global-method-security pre-post-annotations="enabled" />
+    <!--    <global-method-security pre-post-annotations="enabled" />-->
+    <global-method-security pre-post-annotations="enabled" proxy-target-class="true">
+        <expression-handler ref="oauthExpressionHandler"/>
+    </global-method-security>
     
     <!--    if want user csfr protection need to logout using post method and include the csfr certif-->
+    
+    
+    
+    <authentication-manager id="clientAuthenticationManager">
+        <authentication-provider user-service-ref="clientDetailsUserService"/>
+        <authentication-provider>
+            <!--            <user-service>
+                <user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN" />
+            </user-service>-->
+            <password-encoder hash="bcrypt"/> 
+            <jdbc-user-service data-source-ref="dataSource" 
+                               authorities-by-username-query="select app_user.name, role.name from app_user
+                                                              join app_user_role on app_user.id = app_user_role.users_id
+                                                              join role on app_user_role.roles_id = role.id
+                                                              where app_user.name = ?"
+                               users-by-username-query="select name, password,enabled from app_user where name = ?" />
+        </authentication-provider>
+    </authentication-manager>
+   
+   
+   
+   
+   
+    <http pattern="/api/**" create-session="never"
+          access-decision-manager-ref="accessDecisionManager"
+          entry-point-ref="oauthAuthenticationEntryPoint"
+          use-expressions="true" auto-config="true">
+        <csrf disabled="true"/>
+        <anonymous enabled="false"/>
+        <intercept-url pattern="/api/user" access="hasRole('ROLE_USER')"/>
+        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER"/>
+        <access-denied-handler ref="oauthAccessDeniedHandler"/>
+        <expression-handler ref="oauthWebExpressionHandler"/>
+    </http>
+                                         
+    <beans:bean id="oauthAuthenticationEntryPoint"
+                class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <beans:property name="realmName" value="sampleng"/>
+    </beans:bean>         
+
+    <beans:bean id="oauthAccessDeniedHandler" class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler"/>
+    <beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter"/>
+                <beans:bean class="org.springframework.security.access.vote.AuthenticatedVoter"/>
+                <beans:bean class="org.springframework.security.web.access.expression.WebExpressionVoter">
+                    <beans:property name="expressionHandler" ref="oauthWebExpressionHandler" />
+                </beans:bean>
+            </beans:list>
+        </beans:constructor-arg>
+    </beans:bean>
+    
+    <oauth:web-expression-handler id="oauthWebExpressionHandler"/>
+
+
+    <!-- OAuth2 Token Generation Services -->
+    <http pattern="/oauth/token" create-session="stateless"
+          authentication-manager-ref="clientAuthenticationManager">
+        <intercept-url pattern="/oauth/token" access="hasRole('ROLE_USER')"/>
+        <csrf disabled="true"/>
+        <anonymous enabled="false"/>
+        <http-basic entry-point-ref="clientAuthenticationEntryPoint"/>
+        <custom-filter ref="clientCredentialsTokenEndpointFilter" before="BASIC_AUTH_FILTER"/>
+        <access-denied-handler ref="oauthAccessDeniedHandler"/>
+    </http>
+
+    <beans:bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+        <beans:property name="tokenStore" ref="tokenStore"/>
+        <beans:property name="supportRefreshToken" value="true"/>
+        <beans:property name="accessTokenValiditySeconds" value="300000"/>
+        <beans:property name="clientDetailsService" ref="clientDetails"/>
+    </beans:bean>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+    <beans:bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore"/>
+
+    <beans:bean id="approvalStore" class="org.springframework.security.oauth2.provider.approval.TokenApprovalStore">
+        <beans:property name="tokenStore" ref="tokenStore"/>
+    </beans:bean>
+
+    <beans:bean id="userApprovalHandler" class="org.springframework.security.oauth2.provider.approval.ApprovalStoreUserApprovalHandler">
+        <beans:property name="approvalStore" ref="approvalStore"/>
+        <beans:property name="clientDetailsService" ref="clientDetails"/>
+        <beans:property name="requestFactory">
+            <beans:bean class="org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory">
+                <beans:constructor-arg index="0" ref="clientDetails"/>
+            </beans:bean>
+        </beans:property>
+    </beans:bean>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+    <!-- OAuth2 Authorization Server -->
+    <oauth:authorization-server client-details-service-ref="clientDetails"
+                                token-services-ref="tokenServices"
+                                user-approval-handler-ref="userApprovalHandler">
+        <oauth:authorization-code/>
+        <oauth:implicit/>
+        <oauth:refresh-token/>
+        <oauth:client-credentials/>
+        <oauth:password/>
+    </oauth:authorization-server>
+
+    <!-- OAuth2 Protected Resources Server -->
+    <oauth:resource-server id="resourceServerFilter"
+                           resource-id="sampleng"
+                           token-services-ref="tokenServices"/>
+
+    <!-- OAuth2 Client Configuration -->
+    <beans:bean id="clientCredentialsTokenEndpointFilter"
+                class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
+        <beans:property name="authenticationManager" ref="clientAuthenticationManager"/>
+    </beans:bean>
+
+    <beans:bean id="clientAuthenticationEntryPoint"
+                class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <beans:property name="realmName" value="sampleng/client"/>
+        <beans:property name="typeName" value="Basic"/>
+    </beans:bean>
+
+    <beans:bean id="clientDetailsUserService"
+                class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+        <beans:constructor-arg ref="clientDetails"/>
+    </beans:bean>
+
+    <!-- File based client details access -->
+    <oauth:client-details-service id="clientDetails">
+        <!-- Web Application clients -->
+        <oauth:client client-id="client"
+                      secret="secret"
+                      authorities="ROLE_APP"
+                      authorized-grant-types="authorization_code,implicit"
+                      resource-ids="sampleng"
+                      scope="read,write,trust"/>
+
+        <oauth:client client-id="frontend"
+                      secret="secret"
+                      authorities="ROLE_USER"
+                      access-token-validity="60"
+                      authorized-grant-types="password,authorization_code,client_credentials"
+                      scope="read,write,trust"/>
+    </oauth:client-details-service>
+
+    
+
+    <oauth:expression-handler id="oauthExpressionHandler"/>
+    
+    
+    
+    
+    
     <http use-expressions="true" entry-point-ref="restAuthenticationEntryPoint">
         <csrf disabled="true"/>
         <intercept-url pattern="/users**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/account**" access="hasRole('ROLE_USER')" />
-         <intercept-url pattern="/user**" access="hasRole('ROLE_USER')" />
+
        
-<!--        <http-basic/>-->
+        <!--        <http-basic/>-->
         <form-login login-page="/login.html"
                     
                     username-parameter="j_username" 
@@ -26,33 +182,11 @@
                      
                     login-processing-url="/j_spring_security_check"
                    
-                    authentication-failure-handler-ref="FailureHandler"
                     
                     authentication-failure-url="/login.html"
         />
         <logout logout-success-url="/login.html" invalidate-session="true" logout-url="/logout" delete-cookies="JSESSIONID"/>		
     </http>
-    
-    <beans:bean id="SuccessHandler"
-                class="com.hatta.webapp.component.MySavedRequestAwareAuthenticationSuccessHandler"/>
-    <beans:bean id="FailureHandler"
-                class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
-    
-    <authentication-manager>
-        <authentication-provider>
-            <!--            <user-service>
-                <user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN" />
-            </user-service>-->
-            <password-encoder hash="bcrypt"/> 
-            <jdbc-user-service data-source-ref="dataSource" 
-                                authorities-by-username-query="select app_user.name, role.name from app_user
-                                                              join app_user_role on app_user.id = app_user_role.users_id
-                                                              join role on app_user_role.roles_id = role.id
-                                                              where app_user.name = ?"
-                                users-by-username-query="select name, password,enabled from app_user where name = ?" />
-        </authentication-provider>
-    </authentication-manager>
-    
 </beans:beans>
 
 
