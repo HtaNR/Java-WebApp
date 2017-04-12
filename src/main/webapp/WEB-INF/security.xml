@@ -154,7 +154,7 @@
         <oauth:client client-id="frontend"
                       secret="secret"
                       authorities="ROLE_USER"
-                      access-token-validity="60"
+                      access-token-validity="120"
                       authorized-grant-types="password,authorization_code,client_credentials"
                       scope="read,write,trust"/>
     </oauth:client-details-service>
