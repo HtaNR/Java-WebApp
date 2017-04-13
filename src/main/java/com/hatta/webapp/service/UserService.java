@@ -60,9 +60,9 @@ public class UserService {
     }
 
     public void save(User user) {
+         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(user.getPassword()));
         user.setEnabled(true);
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        user.setPassword(encoder.encode(user.getPassword()));
         List<Role> roles = new ArrayList<Role>();
         roles.add(roleRepository.findByName("ROLE_USER"));
         user.setRoles(roles);

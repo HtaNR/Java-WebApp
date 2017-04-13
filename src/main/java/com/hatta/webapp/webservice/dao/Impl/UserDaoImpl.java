@@ -9,19 +9,14 @@ import com.hatta.webapp.entity.Role;
 import com.hatta.webapp.entity.User;
 import com.hatta.webapp.repository.RoleRepository;
 import com.hatta.webapp.repository.UserRepository;
-import com.hatta.webapp.webservice.controller.ServiceController;
 import com.hatta.webapp.webservice.dao.UserDao;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -65,6 +60,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void insert(User user) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(user.getPassword()));
         user.setEnabled(true);
         List<Role> roles = new ArrayList<Role>();
         roles.add(roleRepository.findByName("ROLE_USER"));
@@ -74,6 +71,17 @@ public class UserDaoImpl implements UserDao {
   
     @Override
     public void update(User user) {
+        User old = findUserById(user.getId());
+        String oldPass = old.getPassword();
+        System.out.println("password-------"+oldPass);
+        String newPass = user.getPassword();
+        System.out.println("password-------"+newPass);
+        
+        if(!oldPass.equals(newPass)){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(newPass));
+        }
+        
         user.setEnabled(true);
         List<Role> roles = new ArrayList<Role>();
         roles.add(roleRepository.findByName("ROLE_USER"));

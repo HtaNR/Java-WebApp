@@ -120,9 +120,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String passwordEncrypted = encoder.encode(password);
-         this.password = passwordEncrypted;
+         this.password = password;
 
        
     }
