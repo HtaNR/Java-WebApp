@@ -37,7 +37,7 @@ public class ServiceController {
     private UserBo userBo;
 
     private static final Logger logger = Logger.getLogger(ServiceController.class);
-
+   
     @Transactional
     @RequestMapping(value = "/api/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
@@ -62,11 +62,13 @@ public class ServiceController {
         }
         return new ResponseEntity<User>(user, new HttpHeaders(), HttpStatus.OK);
     }
+
     @Transactional
     @RequestMapping(value = "/api/user", method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<Void> createCustomer(@RequestBody User user, UriComponentsBuilder ucBuilder) {
+    public @ResponseBody
+    ResponseEntity<Void> createCustomer(@RequestBody User user, UriComponentsBuilder ucBuilder) {
         logger.info("###### Creating Customer " + user.getName() + " ######");
-        User newUser = new User(user.getId(), user.getName(),user.getEmail(),user.getPassword());
+        User newUser = new User(user.getId(), user.getName(), user.getEmail(), user.getPassword());
 
         try {
             userBo.insert(newUser);
@@ -78,40 +80,41 @@ public class ServiceController {
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
     }
-     @Transactional
+
+    @Transactional
     @RequestMapping(value = "/api/user", method = RequestMethod.PUT)
     public ResponseEntity<User> updateCustomer(@RequestBody User user) {
-		logger.info("###### Updating Customer " + user.getId() +  " ######"); 
+        logger.info("###### Updating Customer " + user.getId() + " ######");
         User updateUser = userBo.findUserById(user.getId());
-         
-        if (updateUser==null) {
-        	logger.info("###### Customer with id " + user.getId() + " not found" +  " ######");
+
+        if (updateUser == null) {
+            logger.info("###### Customer with id " + user.getId() + " not found" + " ######");
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
-       
+
         userBo.update(user);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
+
     @Transactional
     @RequestMapping(value = "/api/user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteCustomer(@PathVariable("id") int id) {
-		logger.info("###### Fetching & Deleting Customer with id " + id +  " ######");
+        logger.info("###### Fetching & Deleting Customer with id " + id + " ######");
         User customer = userBo.findUserById(id);
         if (customer == null) {
-        	logger.info("###### Unable to delete. Customer with id " + id + " not found" +  " ######");
+            logger.info("###### Unable to delete. Customer with id " + id + " not found" + " ######");
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
- 
+
         userBo.delete(id);
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
-    
+
     @RequestMapping(value = "/api/user", method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteAllCustomers() {
-		logger.info("###### Deleting all Customers ######"); 
+        logger.info("###### Deleting all Customers ######");
         userBo.deleteAll();
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
-    
-    
+
 }
