@@ -72,6 +72,6 @@
   };
   firebase.initializeApp(config);
 </script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/web-start/scripts/main.js"></script>
-<link rel="stylesheet" href="web-start/styles/main.css">
-    
+<script src="<c:url value="/web-start/scripts/main.js"/>"></script>
+
+<link rel="stylesheet" href="<c:url value="/web-start/styles/main.css"/>"> 
