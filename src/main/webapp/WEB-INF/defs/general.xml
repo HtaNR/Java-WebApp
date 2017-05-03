@@ -47,5 +47,26 @@
     <put-attribute name="body" value="/WEB-INF/jsp/login.jsp" />
     <put-attribute name="current" value="login"/> 
   </definition> 
+   <definition name="jadwal/tujuan" extends="common">
+    <put-attribute name="title" value="Kota Tujuan" />
+    <put-attribute name="body" value="/WEB-INF/jsp/list-tujuan.jsp" />
+    <put-attribute name="current" value="tujuan"/> 
+  </definition> 
+  <definition name="jadwal/asal" extends="common">
+    <put-attribute name="title" value="Kota Tujuan" />
+    <put-attribute name="body" value="/WEB-INF/jsp/list-asal.jsp" />
+    <put-attribute name="current" value="asal"/> 
+  </definition> 
+   <definition name="jadwal" extends="common">
+    <put-attribute name="title" value="Penjadwalan" />
+    <put-attribute name="body" value="/WEB-INF/jsp/list-jadwal.jsp" />
+    <put-attribute name="current" value="jadwal"/> 
+  </definition> 
+  <definition name="pemesanan" extends="common">
+    <put-attribute name="title" value="Pemesanan" />
+    <put-attribute name="body" value="/WEB-INF/jsp/pemesanan.jsp" />
+    <put-attribute name="current" value="pemesanan"/> 
+  </definition>
+  
   
 </tiles-definitions>

@@ -46,11 +46,19 @@ public class User {
     private String password;
     private boolean enabled;
     
+    private String alamat;
+    private String gender;
+    private String telepon;
+    
+    @OneToMany(mappedBy="user",cascade = CascadeType.REMOVE)
+    private List<Blog> blogs;
+   
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable
     private List<Role> roles;
-    @OneToMany(mappedBy="user",cascade = CascadeType.REMOVE)
-    private List<Blog> blogs;
+    
+//    @OneToMany(mappedBy="user",cascade = CascadeType.REMOVE)
+//    private List<Pemesanan> pemesanans;
     
     public User() {
 		super();
@@ -63,6 +71,15 @@ public class User {
 		this.email = email;
 		this.password = password;
 	}
+      
+     @JsonIgnore
+    public List<Blog> getBlogs() {
+        return blogs;
+    }
+
+    public void setBlogs(List<Blog> blogs) {
+        this.blogs = blogs;
+    }
     
     public boolean isEnabled() {
         return enabled;
@@ -73,18 +90,44 @@ public class User {
     }
     
 //    need this to make fetch eager not looping 
-   @JsonIgnore 
-    public List<Blog> getBlogs() {
-        return blogs;
-    }
-
-    public void setBlogs(List<Blog> blogs) {
-        this.blogs = blogs;
-    }
+   
     @JsonIgnore
     public List<Role> getRoles() {
         return roles;
     }
+
+    public String getAlamat() {
+        return alamat;
+    }
+
+    public void setAlamat(String alamat) {
+        this.alamat = alamat;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getTelepon() {
+        return telepon;
+    }
+
+    public void setTelepon(String telepon) {
+        this.telepon = telepon;
+    }
+    
+//    @JsonIgnore 
+//    public List<Pemesanan> getPemesanans() {
+//        return pemesanans;
+//    }
+//
+//    public void setPemesanans(List<Pemesanan> pemesanans) {
+//        this.pemesanans = pemesanans;
+//    }
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
@@ -120,9 +163,8 @@ public class User {
     }
 
     public void setPassword(String password) {
-         this.password = password;
-
-       
+        this.password = password;
     }
-      
+
+  
 }

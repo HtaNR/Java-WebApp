@@ -27,6 +27,37 @@
             <form:errors path="email" />
         </div>
     </div>
+
+    <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">Alamat:</label>
+        <div class="col-sm-10">
+
+            <form:input path="alamat" cssClass="form-control" id=""/>
+            <form:errors path="name" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">Gender:</label>
+        <div class="col-sm-10">
+            <form:select cssClass="form-control" path="gender">
+                <form:option value="">---SELECT---</form:option>
+                <form:option value="male">MALE</form:option>
+                <form:option value="female">FEMALE</form:option>
+
+            </form:select>
+            <form:errors path="name" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">Telepon:</label>
+        <div class="col-sm-10">
+            <form:input path="telepon" cssClass="form-control"/>
+            <form:errors path="name" />
+        </div>
+    </div>
+
     <div class="form-group">
         <label for="password" class="col-sm-2 control-label">Password:</label>
         <div class="col-sm-10">
@@ -47,27 +78,42 @@
     </div>
 </form:form>
 
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+  </script>
 <script type="text/javascript">
+    
     $(document).ready(function () {
+        $("#datepicker").datepicker();
         $(".registrationForm").validate(
                 {
                     rules: {
                         name: {
                             required: true,
                             minlength: 3,
-                            remote : {
-                                url : "<spring:url value="/register/available.html"/>",
-                                type : "get",
-                                data : {
-                                    username : function(){
+                            remote: {
+                                url: "<spring:url value="/register/available.html"/>",
+                                type: "get",
+                                data: {
+                                    username: function () {
                                         return $("#name").val();
                                     }
-                                }                                 
+                                }
                             }
                         },
                         email: {
                             required: true,
                             email: true
+                        },
+                        string: {
+                            required: true
                         },
                         password: {
                             required: true,
@@ -79,14 +125,14 @@
                             equalTo: "#password"
                         }
                     },
-                    highlight : function (element){
+                    highlight: function (element) {
                         $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
                     },
-                    unhighlight : function (element){
+                    unhighlight: function (element) {
                         $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
                     },
-                    messages:{
-                        name :{
+                    messages: {
+                        name: {
                             remote: "such username already exists dude"
                         }
                     }

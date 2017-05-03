@@ -6,6 +6,10 @@
     <class>com.hatta.webapp.entity.Item</class>
     <class>com.hatta.webapp.entity.Role</class>
     <class>com.hatta.webapp.entity.User</class>
+    <class>com.hatta.webapp.entity.Pemesanan</class>
+    <class>com.hatta.webapp.entity.KotaAsal</class>
+    <class>com.hatta.webapp.entity.Jadwal</class>
+    <class>com.hatta.webapp.entity.KotaTujuan</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/Web"/>

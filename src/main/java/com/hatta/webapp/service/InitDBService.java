@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
@@ -52,7 +53,9 @@ public class InitDBService {
         User userAdmin = new User();
         userAdmin.setEnabled(true);
         userAdmin.setName("admin");
-        userAdmin.setPassword("admin");
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+       
+        userAdmin.setPassword(encoder.encode("admin"));
         List<Role> roles = new ArrayList<Role>();
 
 //        admin punya 2 role

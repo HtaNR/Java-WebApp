@@ -23,7 +23,12 @@
 <table class="table table-bordered table-hover table-striped">
     <thead>
         <tr>
+            <th>ID</th>
             <th>Username</th>
+            <th>Email</th>
+            <th>Alamat</th>
+            <th>Gender</th>
+            <th>Phone</th>
             <th>Operations</th>
         </tr>
     </thead>
@@ -31,10 +36,26 @@
         <c:forEach items="${users}" var="user">
         <tr>
             <td>
+                    <c:out value="${user.id}"/>
+            </td>
+            <td>
                 <a href="<spring:url value="/users/${user.id}.html"/>">
                     <c:out value="${user.name}"/>
                 </a>
             </td>
+            <td>
+                    <c:out value="${user.email}"/>
+            </td>
+            <td>
+                    <c:out value="${user.alamat}"/>
+            </td>
+            <td>
+                    <c:out value="${user.gender}"/>
+            </td>
+            <td>
+                    <c:out value="${user.telepon}"/>
+            </td>
+         
             <td>
                 <a href="<spring:url value="/users/remove/${user.id}.html"/>" class="btn btn-danger triggerRemove">
                 Remove

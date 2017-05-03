@@ -16,4 +16,7 @@
 	<mvc:annotation-driven />
 	<bean id="userDao" class="com.hatta.webapp.webservice.dao.Impl.UserDaoImpl" />
 	<bean id="userBo" class="com.hatta.webapp.webservice.bo.Impl.UserBoImpl" />
+        <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+            <property name="basenames" value="ValidationMessages"/>
+        </bean>
 </beans>

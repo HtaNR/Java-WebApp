@@ -17,6 +17,11 @@
     <head>
         <%@taglib  uri="http://www.springframework.org/tags" prefix="spring" %>
 
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
         <link rel="stylesheet" 
               href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" 
@@ -41,7 +46,7 @@
 
         <!-- App Styling -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
-        
+
         <!-- -----------------------------------------------------------------------------       -->
     </head>
     <body>
@@ -64,12 +69,30 @@
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li class="${current == 'index' ? 'active':''}"><a href="<spring:url value="/" />">Home</a></li>
+                            
+
                            
-                                <security:authorize access="hasRole('ROLE_ADMIN')">
-                                <li class="${current == 'users' ? 'active':''}"><a href="<spring:url value="/users.html"/>">Users</a></li>
+
+                            <security:authorize access="hasRole('ROLE_ADMIN')">
+                                <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Master <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="${current == 'tujua' ? 'active':''}"><a href="<spring:url value="/jadwal/tujuan.html" />">Kota Tujuan</a></li>
+                                    <li class="${current == 'asa' ? 'active':''}"><a href="<spring:url value="/jadwal/asal.html" />">Kota Asal</a></li>
+                                    <li class="${current == 'uses' ? 'active':''}"><a href="<spring:url value="/users.html"/>">Users</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Transaksi <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class="${current == 'list_jadal' ? 'active':''}"><a href="<spring:url value="/jadwal.html" />">Jadwal</a></li>
+                                    <li class="${current == 'pemesana' ? 'active':''}"><a href="<spring:url value="/pemesanan.html" />">Pemesanan</a></li>
+                                </ul>
+                            </li>
+                                
                                 <li class="${current == 'register' ? 'active':''}"><a href="<spring:url value="/register.html"/>">Register User</a></li>
                                 </security:authorize>
-                                <li class="${current == 'chat' ? 'active':''}"><a href="<spring:url value="/chat.html"/>">Message</a></li>
+                            <li class="${current == 'chat' ? 'active':''}"><a href="<spring:url value="/chat.html"/>">Message</a></li>
                                 <security:authorize access=" isAuthenticated()">
                                 <li class="${current == 'account' ? 'active':''}"><a href="<spring:url value="/account.html"/>">My Account</a></li>
                                 </security:authorize>
@@ -91,7 +114,7 @@
                                         <!--                                    <li role="separator" class="divider"></li>                                   -->
                                         <li class=""><a href="<spring:url value="/account.html"/>">My Account</a></li>
                                         <br \>
-                                    
+
                                         <li >
                                             <form id="my_form" action="${logoutUrl}" method="post">                              
                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
