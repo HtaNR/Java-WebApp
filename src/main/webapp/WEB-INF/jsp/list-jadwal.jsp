@@ -33,11 +33,11 @@ Author     : Hatta NR
                                       <form:option value="${asalkota.asal}">${asalkota.asal}</form:option>
                                 </c:forEach>
                             </form:select>
+                            <form:errors path="kotaAsal" />
 
                         </div>
                     </div>
-                </div>
-                <div class="modal-body">
+               
                     <div class="form-group">
                         <label for="tujuan" class="col-sm-2 control-label">Nama Kota Tujuan</label>
                         <div class="col-sm-10">
@@ -47,38 +47,39 @@ Author     : Hatta NR
                                       <form:option value="${tujuankota.tujuan}">${tujuankota.tujuan}</form:option>
                                 </c:forEach>                      
                             </form:select>
+                            <form:errors path="kotaTujuan" />
                         </div>
                     </div>
-                </div>
-                <div class="modal-body">
+                
                     <div class="form-group">
                         <label for="tujuan" class="col-sm-2 control-label">Tanggal Berangkat</label>
                         <div class="col-sm-10">
                             <form:input path="tanggalBerangkat" cssClass="form-control" id="datepicker" />
+                             <form:errors path="tanggalBerangkat" />
                         </div>
                     </div>
-                </div>
-                <div class="modal-body">
+                
                     <div class="form-group">
                         <label for="tujuan" class="col-sm-2 control-label">Jam Berangkat</label>
                         <div class="col-sm-10">
                             <form:input path="jamBerangkat" cssClass="form-control" id="basicExample"/>
+                             <form:errors path="jamBerangkat" />
                         </div>
                     </div>
-                </div>
-                <div class="modal-body">
+                
                     <div class="form-group">
                         <label for="tujuan" class="col-sm-2 control-label">Harga Tiket</label>
                         <div class="col-sm-10">
                             <form:input path="harga" cssClass="form-control" />
+                             <form:errors path="harga" />
                         </div>
                     </div>
-                </div>
-                <div class="modal-body">
+              
                     <div class="form-group">
                         <label for="tujuan" class="col-sm-2 control-label">Max Seat</label>
                         <div class="col-sm-10">
                             <form:input path="seat" cssClass="form-control" />
+                            <form:errors path="seat" />
                         </div>
                     </div>
                 </div>
@@ -95,16 +96,10 @@ Author     : Hatta NR
 
 
 <!--buat tanggal-->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
+<script src="web-start/scripts/jquery.plugin.js"></script>
+<script src="web-start/scripts/jquery.datepick.js"></script>
+<link rel="stylesheet" href="web-start/styles/jquery.datepick.css"> 
   
-  </script>
   <script>
       $( function() {
     $('#basicExample').timepicker({ 'timeFormat': 'H:i' });
@@ -120,12 +115,49 @@ Author     : Hatta NR
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#datepicker").datepick({dateFormat: 'dd/mm/yyyy',popupContainer: '#myModal',defaultDate: new Date(), selectDefaultDate: true});
         $('.nav-tabs a:first').tab('show');
         $('.triggerRemove').click(function (e) {
             e.preventDefault();
             $("#modalRemove .removeBtn").attr("href", $(this).attr("href"));
             $("#modalRemove").modal();
         });
+         $(".blogForm").validate({
+                    rules: {
+                        kotaAsal: {
+                            required: true
+                        },
+                        kotaTujuan: {
+                            required: true
+                           
+                        },
+                        tanggalBerangkat: {
+                            required: true,
+                            date:true
+                           
+                        },
+                        jamBerangkat: {
+                            required: true
+                        },
+                        harga: {
+                            required: true,
+                            number:true,
+                            min:[1]
+                        },
+                        seat: {
+                            required: true,
+                            number:true,
+                            min:[1]
+                        }
+                        
+                    },
+                    highlight : function (element){
+                        $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                    },
+                    unhighlight : function (element){
+                        $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                    }
+                });
     });
     
 </script>

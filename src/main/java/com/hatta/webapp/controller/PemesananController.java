@@ -5,10 +5,13 @@
  */
 package com.hatta.webapp.controller;
 
+import com.hatta.webapp.entity.Blog;
 import com.hatta.webapp.entity.Jadwal;
 import com.hatta.webapp.entity.Pemesanan;
+import com.hatta.webapp.service.BlogService;
 import com.hatta.webapp.service.JadwalService;
 import com.hatta.webapp.service.PemesananService;
+import com.hatta.webapp.service.UserService;
 import java.security.Principal;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +40,14 @@ public class PemesananController {
     private JadwalService jadwalService;
     @Autowired
     private MessageSource messageSource;
-
-    @ModelAttribute("Pemesanan")
+    
+   
+    @ModelAttribute("pemesanan")
     public Pemesanan constructPemesanan() {
         return new Pemesanan();
     }
-
+   
+    
     //////////////////////////////////////////////////////////////////////////////
     @RequestMapping()
     public String Pemesanan(Model model) {
@@ -52,7 +57,7 @@ public class PemesananController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String doRegisterP(@Valid @ModelAttribute("Pemesanan") Pemesanan pemesanan, BindingResult bindingResult, Principal principal) {
+    public String doRegisterP(@Valid @ModelAttribute("pemesanan") Pemesanan pemesanan, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             for (Object object : bindingResult.getAllErrors()) {
                 if (object instanceof FieldError) {
@@ -66,6 +71,11 @@ public class PemesananController {
         }
 //        String tes = pemesanan.getJadwal().toString();
 //        Jadwal jadwalsave = jadwalService.findById(tes);
+        int jadwalId = pemesanan.getIdJadwal();
+        Jadwal jadwal = jadwalService.findById(jadwalId);
+        int harga = jadwal.getHarga();
+        int total = harga*pemesanan.getQty();
+        pemesanan.setTotalHarga(total);
         String name = principal.getName();
         pemesananService.save(pemesanan, name);
         return "redirect:/pemesanan.html";

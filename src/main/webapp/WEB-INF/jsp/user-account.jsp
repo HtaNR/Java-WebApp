@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <label for="name" class="col-sm-2 control-label">Name:</label>
                         <div class="col-sm-10">
-                            <form:input path="name" cssClass="form-control" autofocus="autofocus"/>
+                            <form:input path="name" cssClass="form-control" />
                              <form:errors path="name" />
                         </div>
                     </div>

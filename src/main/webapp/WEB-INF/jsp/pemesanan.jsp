@@ -1,7 +1,7 @@
 <%-- 
-Document   : list-tujuan
-Created on : Apr 17, 2017, 3:43:09 PM
-Author     : Hatta NR
+    Document   : user-detail
+    Created on : Mar 20, 2017, 2:13:40 PM
+    Author     : Hatta NR
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -15,7 +15,7 @@ Author     : Hatta NR
 <br/>
 
 <!-- adding Modal -->
-<form:form commandName="Pemesanan" cssClass="form-horizontal blogForm">
+<form:form commandName="pemesanan" cssClass="form-horizontal blogForm">
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -23,62 +23,57 @@ Author     : Hatta NR
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Masukan Pemesanan</h4>
                 </div>
-               
-               
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="tujuan" class="col-sm-2 control-label">Nama</label>
+                        <label for="name" class="col-sm-2 control-label">Name:</label>
                         <div class="col-sm-10">
-                            <form:input path="nama" cssClass="form-control"  />
+                            <form:input path="nama" cssClass="form-control" />
+                             <form:errors path="nama" />
                         </div>
                     </div>
-                </div>
-                <div class="modal-body">
                     <div class="form-group">
-                        <label for="tujuan" class="col-sm-2 control-label">Telepon</label>
+                        <label for="name" class="col-sm-2 control-label">Telepon:</label>
                         <div class="col-sm-10">
-                            <form:input path="telepon" cssClass="form-control" />
+                            <form:input path="telepon" cssClass="form-control"  />
+                             <form:errors path="telepon" />
                         </div>
                     </div>
-                </div>
-                <div class="modal-body">
                     <div class="form-group">
-                        <label for="tujuan" class="col-sm-2 control-label">Nama Jadwal</label>
+                        <label for="name" class="col-sm-2 control-label">ID Jadwal:</label>
                         <div class="col-sm-10">
-                           <form:select cssClass="form-control" path="idJadwal">
+                            <form:select cssClass="form-control" path="idJadwal">
                                <form:option value='0'>---SELECT---</form:option>
                                 <c:forEach items="${schedules}" var="schedule">
                                     <form:option value="${schedule.id}">${schedule.id}</form:option>
                                 </c:forEach>                      
                             </form:select>
+                            <form:errors path="idJadwal" />
                         </div>
                     </div>
-                </div>
-                <div class="modal-body">
                     <div class="form-group">
-                        <label for="tujuan" class="col-sm-2 control-label">Qty</label>
+                        <label for="name" class="col-sm-2 control-label">Qty:</label>
                         <div class="col-sm-10">
-                            <form:input path="qty" cssClass="form-control" />
+                            <form:input path="qty" cssClass="form-control"  />
+                             <form:errors path="qty" />
                         </div>
                     </div>
-                </div>
-                <div class="modal-body">
                     <div class="form-group">
-                        <label for="tujuan" class="col-sm-2 control-label">Status Bayar</label>
+                        <label for="name" class="col-sm-2 control-label">Status Bayar:</label>
                         <div class="col-sm-10">
-                            <form:input path="status" cssClass="form-control" />
+                           <form:radiobutton path="status" value="BELUM" checked="checked"/>BELUM LUNAS
+                           <br>
+                           <form:radiobutton path="status" value="LUNAS"/>LUNAS           
                         </div>
                     </div>
-                </div>
-                <div class="modal-body">
                     <div class="form-group">
                         <label for="tujuan" class="col-sm-2 control-label">Tanggal Pesan</label>
-                        <div class="col-sm-10">
-                            <form:input path="tanggalPesan" cssClass="form-control" id="datepicker" />
+                        <div class="col-sm-10" >
+                            <form:input path="tanggalPesan" cssClass="form-control" id="datepicker"  />
+                             <form:errors path="tanggalPesan" />
                         </div>
                     </div>
                 </div>
-           <div class="modal-footer">
+                <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <input type="submit" class="btn btn-primary" value="Save"/> 
                 </div>
@@ -88,44 +83,53 @@ Author     : Hatta NR
 </form:form>
 <br /><br />
 
-
-<!--buat tanggal-->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
-  
-  </script>
-  <script>
-      $( function() {
-    $('#basicExample').timepicker({ 'timeFormat': 'H:i' });
-});
-   
-  </script>
-<!--buat jam-->
-<script src="web-start/scripts/jquery.timepicker.min.js"></script>
-
-<link rel="stylesheet" href="web-start/styles/jquery.timepicker.css"> 
-
-
-
+<!--Javascript-->
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('.nav-tabs a:first').tab('show');
-        $('.triggerRemove').click(function (e) {
-            e.preventDefault();
-            $("#modalRemove .removeBtn").attr("href", $(this).attr("href"));
-            $("#modalRemove").modal();
-        });
+    $(document).ready(function(){  
+       $("#datepicker").datepick({dateFormat: 'dd/mm/yyyy',popupContainer: '#myModal',defaultDate: new Date(), selectDefaultDate: true});
+       $('.triggerRemove').click(function (e){
+          e.preventDefault();
+          $("#modalRemove .removeBtn").attr("href", $(this).attr("href"));
+          $("#modalRemove").modal();
+       });
+      
+       $(".blogForm").validate({
+                    rules: {
+                        nama: {
+                            required: true,
+                            minlength: 1
+                        },
+                        telepon: {
+                            required: true
+                           
+                        },
+                        idJadwal: {
+                            required: true
+                           
+                        },
+                        qty: {
+                            required: true,
+                            range:[1,70]
+                        },
+                        tanggalPesan: {
+                            required: true,
+                            date:true
+                        }
+                        
+                    },
+                    highlight : function (element){
+                        $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                    },
+                    unhighlight : function (element){
+                        $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                    }
+                });
     });
-    
 </script>
-
-
+<!--buat tanggal-->
+<script src="web-start/scripts/jquery.plugin.js"></script>
+<script src="web-start/scripts/jquery.datepick.js"></script>
+<link rel="stylesheet" href="web-start/styles/jquery.datepick.css"> 
 <table class="table table-bordered table-hover table-striped">
     <thead>
         <tr>
@@ -177,7 +181,7 @@ Author     : Hatta NR
                 <c:out value="${listPemesanan.totalHarga}"/>
             </td>
             <td>
-                <a href="<spring:url value="/jadwal/remove/${listPemesanan.id}.html"/>" class="btn btn-danger triggerRemove">
+                <a href="<spring:url value="/pemesanan/remove/${listPemesanan.id}.html"/>" class="btn btn-danger triggerRemove">
                     Remove
                 </a>
             </td>
@@ -185,10 +189,7 @@ Author     : Hatta NR
     </c:forEach>
 </body>
 </table>
-
-
-
-
+<!-- Modal -->
 <!-- Modal -->
 <div class="modal fade" id="modalRemove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -206,4 +207,4 @@ Author     : Hatta NR
             </div>
         </div>
     </div>
-</di
+</div>
